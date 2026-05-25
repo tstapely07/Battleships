@@ -33,3 +33,5 @@ assemble
 *.nav
 *.toc
 
+# Unit tests
+src/test_runner
