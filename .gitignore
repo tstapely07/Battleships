@@ -34,3 +34,5 @@ assemble
 *.toc
 *.bin
 
+# Unit tests
+src/test_runner
