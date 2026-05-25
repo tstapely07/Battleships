@@ -32,4 +32,5 @@ assemble
 *.vrb
 *.nav
 *.toc
+*.bin
 
