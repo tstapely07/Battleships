@@ -15,8 +15,7 @@
 
 #ignore junk files from compiling C code
 *.o
-emulate
-assemble
+bin/
 
 #ignore junk files from compiling Haskell code
 *.hi
@@ -38,6 +37,3 @@ assemble
 .vscode/
 .idea/
 
-# Unit tests
-src/test_runner
-src/test_execute_runner
