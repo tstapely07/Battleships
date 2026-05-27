@@ -34,5 +34,10 @@ assemble
 *.toc
 *.bin
 
+#ignore IDE files
+.vscode/
+.idea/
+
 # Unit tests
 src/test_runner
+src/test_execute_runner
