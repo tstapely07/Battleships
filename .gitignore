@@ -36,4 +36,5 @@ bin/
 #ignore IDE files
 .vscode/
 .idea/
-
+.zed/
+.clangd
