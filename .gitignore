@@ -38,3 +38,4 @@ bin/
 .idea/
 .zed/
 .clangd
+compile_commands.json
