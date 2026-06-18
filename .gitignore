@@ -1,8 +1,3 @@
-#This the the canonical lab .gitignore file
-
-#ignore temp files
-*~
-
 #ignore pdf files (just keep source files)
 *.pdf
 
@@ -17,21 +12,10 @@
 *.o
 bin/
 
-#ignore junk files from compiling Haskell code
-*.hi
-
-#ignore junk files from compiling Java code
-*.class
-
-#ignore other junk files
-*.backup
-*.kate-swp
-*.swp
-*.snm
-*.vrb
-*.nav
-*.toc
-*.bin
+#ignore log files
+*.txt
+#keep text files from tests
+!tests/*.txt
 
 #ignore IDE files
 .vscode/
