@@ -164,9 +164,7 @@ static void handle_state_my_turn(ClientState *state, InputData input) {
     if (input.type != INPUT_FIRE) {
         return;
     }
-    if (valid_attack_pos(
-            state->game.target_board,
-            (Position){.x = input.grid_pos.x, .y = input.grid_pos.y})) {
+    if (valid_attack_pos(state->game.target_board, input.grid_pos)) {
         FirePayload fire_req;
         fire_req.x = input.grid_pos.x;
         fire_req.y = input.grid_pos.y;
