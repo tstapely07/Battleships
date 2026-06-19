@@ -8,7 +8,6 @@
 Universal interface for output
 */
 
-
 typedef enum {
     INPUT_NONE,
     INPUT_QUIT,

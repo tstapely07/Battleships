@@ -2,9 +2,9 @@
 #include "client/network.h"
 #include "client/render.h"
 #include "client/state.h"
+#include "shared/log.h"
 #include "shared/network.h"
 #include "shared/protocol.h"
-#include "shared/log.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -45,14 +45,15 @@ static void handle_msq_req_board(ClientState *state) {
         send_board_to_server(state);
         LOG_DEBUG("%s", "Sent ship layout to server.");
     } else {
-        LOG_DEBUG("%s", "Server requested board, but we are still placing ships.");
+        LOG_DEBUG("%s",
+                  "Server requested board, but we are still placing ships.");
     }
 }
 
 static void handle_msg_game_start(ClientState *state,
                                   GameStartPayload *start_data) {
     state->current_state =
-            start_data->your_turn ? UI_STATE_MY_TURN : UI_STATE_OPPONENT_TURN;
+        start_data->your_turn ? UI_STATE_MY_TURN : UI_STATE_OPPONENT_TURN;
     LOG_INFO("%s", "Game has been started.");
 }
 
@@ -115,7 +116,8 @@ static void handle_incoming_packet(ClientState *state, PacketHeader header,
         handle_msg_game_over(state, (GameOverPayload *)payload);
         break;
     case MSG_INVALID_BOARD:
-        LOG_ERROR("%s", "Invalid placement: ships overlap or are out of bounds!");
+        LOG_ERROR("%s",
+                  "Invalid placement: ships overlap or are out of bounds!");
 
         reset_staged_ships();
 
@@ -147,7 +149,8 @@ static void handle_state_placing_ships(ClientState *state, InputData input) {
         }
     } else {
         // Invalid!
-        LOG_ERROR("%s", "Invalid placement: ships overlap or are out of bounds!");
+        LOG_ERROR("%s",
+                  "Invalid placement: ships overlap or are out of bounds!");
 
         reset_staged_ships();
 
@@ -169,7 +172,7 @@ static void handle_state_my_turn(ClientState *state, InputData input) {
         fire_req.y = input.grid_pos.y;
 
         send_packet(state->net.connection_fd, MSG_FIRE, &fire_req,
-                        sizeof(fire_req));
+                    sizeof(fire_req));
         LOG_DEBUG("Fired at %d, %d!", input.grid_pos.x, input.grid_pos.y);
     } else {
         LOG_DEBUG("%s", "Invalid coordinate!");
@@ -194,7 +197,8 @@ void client_loop(ClientState *state) {
             }
 
             // Check for crash/disconnect
-            if (recv_status == -1 && state->current_state != UI_STATE_GAME_OVER) {
+            if (recv_status == -1 &&
+                state->current_state != UI_STATE_GAME_OVER) {
                 LOG_ERROR("%s", "Lost connection to the server! Exiting...");
                 state->is_running = false;
                 break; // Break out of the game loop immediately

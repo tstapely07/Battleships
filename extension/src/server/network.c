@@ -1,3 +1,5 @@
+#include "shared/log.h"
+#include "shared/protocol.h"
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <netinet/in.h>
@@ -7,10 +9,6 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include "shared/protocol.h"
-#include "shared/log.h"
 
 /* Starts the server, binds to the specified port, and begins listening.
    Exits if a failure occurs.
@@ -42,7 +40,8 @@ int start_server(int port) {
     server_addr.sin_port = htons(port);
 
     // Bind socket to port
-    if (bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+    if (bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) <
+        0) {
         LOG_ERROR("%s", "Bind failed");
         exit(EXIT_FAILURE);
     }
@@ -77,8 +76,8 @@ int accept_client(int server_fd) {
         return -1;
     }
 
-    LOG_INFO("Client connected from %s:%d",
-            inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+    LOG_INFO("Client connected from %s:%d", inet_ntoa(client_addr.sin_addr),
+             ntohs(client_addr.sin_port));
 
     // Set newly accepted client socket to non-blocking
     int flags = fcntl(client_fd, F_GETFL, 0);

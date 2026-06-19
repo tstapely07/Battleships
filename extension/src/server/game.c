@@ -1,9 +1,9 @@
 #include "game.h"
+#include "shared/log.h"
 #include "shared/network.h"
 #include "shared/protocol.h"
 #include <stdlib.h>
 #include <time.h>
-#include "shared/log.h"
 
 /*
 Processes actions, overwrites grid cells, and checks for win conditions
@@ -76,9 +76,9 @@ void end_game(GameState state, PlayerState winner, PlayerState loser) {
     GameOverPayload loserData = {.you_won = false};
 
     send_packet(winner->socket_fd, MSG_GAME_OVER, &winnerData,
-                       sizeof(GameOverPayload));
+                sizeof(GameOverPayload));
     send_packet(loser->socket_fd, MSG_GAME_OVER, &loserData,
-                       sizeof(GameOverPayload));
+                sizeof(GameOverPayload));
 }
 
 /*
