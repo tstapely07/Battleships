@@ -58,9 +58,8 @@ static void handle_msg_game_start(ClientState *state,
 }
 
 static void handle_msg_attack(ClientState *state,
-                              EnemyAttackPayload *hit_data) {
+                              AttackResultPayload *hit_data) {
     FirePayload shot = hit_data->shot;
-    HitResultPayload result = hit_data->result;
 
     Board target = (state->current_state == UI_STATE_MY_TURN)
                        ? state->game.target_board
@@ -70,14 +69,14 @@ static void handle_msg_attack(ClientState *state,
                              : UI_STATE_MY_TURN;
 
     board_mark_strike(target, (Position){.x = shot.x, .y = shot.y},
-                      result.success);
+                      hit_data->success);
 
     // Now check if the shot sank a ship
-    if (result.ship != -1) {
-        board_mark_sunk_ship(target, result.ship, result.sunk_pwd);
+    if (hit_data->ship != -1) {
+        board_mark_sunk_ship(target, hit_data->ship, hit_data->sunk_pwd);
         if (state->current_state == UI_STATE_MY_TURN) {
-            state->game.enemy_ships_sunk[result.ship] = true;
-            state->game.enemy_ship_positions[result.ship] = result.sunk_pwd;
+            state->game.enemy_ships_sunk[hit_data->ship] = true;
+            state->game.enemy_ship_positions[hit_data->ship] = hit_data->sunk_pwd;
         }
 
         LOG_INFO("%s", "Ship sunk!");
@@ -107,8 +106,8 @@ static void handle_incoming_packet(ClientState *state, PacketHeader header,
     case MSG_GAME_START:
         handle_msg_game_start(state, (GameStartPayload *)payload);
         break;
-    case MSG_ATTACKED:
-        handle_msg_attack(state, (EnemyAttackPayload *)payload);
+    case MSG_ATTACK_RESULT:
+        handle_msg_attack(state, (AttackResultPayload *)payload);
         break;
     case MSG_GAME_OVER:
         // This is also called unexpectedly in the case where the opponent

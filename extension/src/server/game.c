@@ -218,22 +218,25 @@ void play(GameState state) {
         }
 
         // Inform player of result
-        HitResultPayload hrp = {.success = was_hit, .ship = sunk};
+        AttackResultPayload arp = {
+            .shot = *fire_payload,
+            .success = was_hit,
+            .ship = sunk
+        };
 
         // If a ship was sunk, send details
         if (sunk != -1) {
             ShipState sunk_state = board_get_ship(other_player->board, sunk);
-            hrp.sunk_pwd = sunk_state.pwd;
+            arp.sunk_pwd = sunk_state.pwd;
         }
 
-        EnemyAttackPayload eap = {.shot = *fire_payload, .result = hrp};
         free(fire_payload);
 
-        send_packet(turn_taker->socket_fd, MSG_ATTACKED, &eap,
-                    sizeof(EnemyAttackPayload));
+        send_packet(turn_taker->socket_fd, MSG_ATTACK_RESULT, &arp,
+                    sizeof(AttackResultPayload));
         // Inform opponent of result
-        send_packet(other_player->socket_fd, MSG_ATTACKED, &eap,
-                    sizeof(EnemyAttackPayload));
+        send_packet(other_player->socket_fd, MSG_ATTACK_RESULT, &arp,
+                    sizeof(AttackResultPayload));
 
         // SWAP TURNS
         state->is_player1_turn = !state->is_player1_turn;
