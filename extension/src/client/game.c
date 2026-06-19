@@ -76,7 +76,8 @@ static void handle_msg_attack(ClientState *state,
         board_mark_sunk_ship(target, hit_data->ship, hit_data->sunk_pwd);
         if (state->current_state == UI_STATE_MY_TURN) {
             state->game.enemy_ships_sunk[hit_data->ship] = true;
-            state->game.enemy_ship_positions[hit_data->ship] = hit_data->sunk_pwd;
+            state->game.enemy_ship_positions[hit_data->ship] =
+                hit_data->sunk_pwd;
         }
 
         LOG_INFO("%s", "Ship sunk!");

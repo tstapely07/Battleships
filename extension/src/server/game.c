@@ -219,10 +219,7 @@ void play(GameState state) {
 
         // Inform player of result
         AttackResultPayload arp = {
-            .shot = *fire_payload,
-            .success = was_hit,
-            .ship = sunk
-        };
+            .shot = *fire_payload, .success = was_hit, .ship = sunk};
 
         // If a ship was sunk, send details
         if (sunk != -1) {
