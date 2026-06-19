@@ -101,7 +101,8 @@ bool init_graphics(void) {
         assets.rotated_textures[i] = LoadTextureFromImage(image);
         UnloadImage(image);
 
-        if (!IsTextureValid(assets.textures[i]) || !IsTextureValid(assets.rotated_textures[i])) {
+        if (!IsTextureValid(assets.textures[i]) ||
+            !IsTextureValid(assets.rotated_textures[i])) {
             // Unload all the textures that have already been loaded.
             for (int j = 0; j < i; j++) {
                 UnloadTexture(assets.textures[j]);
@@ -123,9 +124,7 @@ bool init_graphics(void) {
     return true;
 }
 
-bool is_window_open(void) {
-    return !WindowShouldClose();
-}
+bool is_window_open(void) { return !WindowShouldClose(); }
 
 void cleanup_graphics(void) {
     for (int i = 0; i < NUM_SHIPS; i++) {
@@ -325,9 +324,11 @@ static void draw_peg(Rectangle bounds, CellState cell) {
         DrawCircleLines(center_x, center_y, radius, BLACK);
         float offset = radius * 0.5f;
         DrawLineEx((Vector2){center_x - offset, center_y - offset},
-                   (Vector2){center_x + offset, center_y + offset}, 3.0f, WHITE);
+                   (Vector2){center_x + offset, center_y + offset}, 3.0f,
+                   WHITE);
         DrawLineEx((Vector2){center_x + offset, center_y - offset},
-                   (Vector2){center_x - offset, center_y + offset}, 3.0f, WHITE);
+                   (Vector2){center_x - offset, center_y + offset}, 3.0f,
+                   WHITE);
     }
 }
 

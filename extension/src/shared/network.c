@@ -1,3 +1,5 @@
+#include "log.h"
+#include "protocol.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
@@ -6,8 +8,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h>
-#include "protocol.h"
-#include "log.h"
 
 /* Sends a packet header and optional payload to the server.
    Receives the connected socket file descriptor, the MessageType enum,
@@ -38,7 +38,8 @@ int send_packet(int sockfd, MessageType type, const void *payload,
         }
     }
 
-    LOG_DEBUG("Sent packet (Type: %d, Payload Size: %u bytes)", type, payload_length);
+    LOG_DEBUG("Sent packet (Type: %d, Payload Size: %u bytes)", type,
+              payload_length);
     return 0;
 }
 
@@ -88,8 +89,11 @@ int receive_packet(int sockfd, PacketHeader *out_header, void **out_payload) {
                      out_header->payload_length - total_read, 0);
             if (payload_bytes > 0) {
                 total_read += payload_bytes;
-            } else if (payload_bytes == 0 || (payload_bytes < 0 && errno != EWOULDBLOCK && errno != EAGAIN)) {
-                LOG_ERROR("%s", "Connection closed or failed while reading payload");
+            } else if (payload_bytes == 0 ||
+                       (payload_bytes < 0 && errno != EWOULDBLOCK &&
+                        errno != EAGAIN)) {
+                LOG_ERROR("%s",
+                          "Connection closed or failed while reading payload");
                 free(*out_payload);
                 *out_payload = NULL;
                 return -1;
@@ -100,6 +104,7 @@ int receive_packet(int sockfd, PacketHeader *out_header, void **out_payload) {
         *out_payload = NULL;
     }
 
-    LOG_DEBUG("Received packet (Type: %d, Payload Size: %u bytes)", out_header->type, out_header->payload_length);
+    LOG_DEBUG("Received packet (Type: %d, Payload Size: %u bytes)",
+              out_header->type, out_header->payload_length);
     return 1;
 }

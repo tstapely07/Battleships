@@ -8,7 +8,6 @@
 Universal interface for output
 */
 
-
 /* Initialises window, loads textures/prepares terminal.
    Returns true on success, false on fatal error. */
 extern bool init_graphics(void);

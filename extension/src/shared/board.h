@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-
 #define BOARD_SIZE 10
 #define NUM_SHIPS 5
 

@@ -40,7 +40,8 @@ int connect_to_server(char *hostname, int port) {
     server_addr.sin_port = htons(port);
 
     // Attempt to connect
-    if (connect(sockfd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
+    if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) <
+        0) {
         LOG_ERROR("%s", "Could not connect to server");
         close(sockfd);
         return -1;

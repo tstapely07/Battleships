@@ -85,10 +85,10 @@ ShipState board_get_ship(Board board, int index) {
 
 /*
 Add the following ships at given the board is empty.
-This should only be used for initialisation and never after gameplay has started.
-This function does not clear the board if it is invalid. The caller must provide
-a valid placement set before any of the game code has defined behaviour.
-Returns true iff the placement succeeded.
+This should only be used for initialisation and never after gameplay has
+started. This function does not clear the board if it is invalid. The caller
+must provide a valid placement set before any of the game code has defined
+behaviour. Returns true iff the placement succeeded.
 */
 bool board_add_placement_set(InitialShipDefs ship_defs, Board board) {
     // Bit n in declared_types being set to 1 corresponds to having a ship of
