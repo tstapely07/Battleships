@@ -34,11 +34,11 @@ void render_frame(const ClientState *state) {
     case UI_STATE_PLACING_SHIPS: {
         printf("=== Place Your Ships ===\n");
 
-        // 1. Get partial list from input
+        // Get partial list from input
         int count = get_staged_ship_count();
         InitialShipState *staged = get_staged_ships();
 
-        // Can't modify real board we have to clone it
+        // Shouldn't modify real board, so we clone it
         Board temp_board = create_empty_board();
         for (int i = 0; i < count; i++) {
             board_add_single_ship(staged[i], temp_board);
