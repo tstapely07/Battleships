@@ -16,15 +16,10 @@ typedef enum {
 } InputType;
 
 typedef struct {
-    int x;
-    int y;
-} GridPos;
-
-typedef struct {
     InputType type;
     // Optional data
     union {
-        GridPos grid_pos;
+        Position grid_pos;
         InitialShipState ships[NUM_SHIPS];
     };
 } InputData;
